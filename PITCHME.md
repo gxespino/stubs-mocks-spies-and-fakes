@@ -17,6 +17,9 @@
 
 +++?code=src/background.rb&lang=ruby
 
+@[0-17]
+@[19-29]
+
 ---
 
 ### Stubs
