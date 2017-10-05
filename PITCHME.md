@@ -179,6 +179,7 @@ end
 @[3-7](Arrange)
 @[9](Act)
 @[11-13](Assert)
+@[6-7, 11-12](Spy)
 
 +++
 
@@ -186,9 +187,10 @@ Spies are ALSO stubs. They just also have an explicit expectation.
 
 +++
 
-Benefits of spies:
+Benefits of Spies:
 
-- Tests are organized clearly in Arrange, Act, Assert - making them easier to understand <!-- .element: class="fragment" -->
+- Tests are organized clearly in Arrange, Act, Assert <!-- .element: class="fragment" -->
+- Easier to understand <!-- .element: class="fragment" -->
 - Easier to extract repeated Arrange steps <!-- .element: class="fragment" -->
 
 ---
