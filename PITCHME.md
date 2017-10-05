@@ -124,6 +124,7 @@ end
 +++
 
 stubs = allow
+
 mocks = expect
 
 ---
