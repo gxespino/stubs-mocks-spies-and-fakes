@@ -1,4 +1,4 @@
-### Stubs, Mocks, Spies, Fakes and Doubles
+### Stubs, Mocks, Spies and Fakes
 (Nothing is real anymore)
 
 ---
@@ -9,7 +9,7 @@
 - Mocks
 - Spies
 - Fakes
-- Doubles
+- When, how and why to use either
 
 ---
 
@@ -226,5 +226,3 @@ end
 ### Fakes
 
 ---
-
-### Doubles
