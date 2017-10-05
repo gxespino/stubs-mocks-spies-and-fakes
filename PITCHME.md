@@ -17,8 +17,21 @@
 
 +++?code=src/background.rb&lang=ruby
 
-@[0-17]
-@[19-29]
++++
+
+```ruby
+class Parser
+  def self.parse(csv_file)
+    ...
+  end
+end
+
+class Loader
+  def self.load!(parsed_data)
+    ...
+  end
+end
+```
 
 ---
 
@@ -67,19 +80,19 @@ But they don't suffice for COMMAND methods
 +++
 
 ```ruby
-  def process(csv_file)
-    begin
-      parsed = parser.parse(csv_file)
-      loader.load!(parsed)
+def process(csv_file)
+  begin
+    parsed = parser.parse(csv_file)
+    loader.load!(parsed)
 
-      Result.new(:success)
-    rescue ActiveRecord::RecordInvalid => invalid
-      Result.new(:failed, invalid.record.errors)
-    end
+    Result.new(:success)
+  rescue ActiveRecord::RecordInvalid => invalid
+    Result.new(:failed, invalid.record.errors)
   end
+end
 ```
-@[1]
-@[3-4](Using stubs our test would still pass if we removed these two lines!)
+
+@[1-2, 5-10](Using stubs our test would still pass if we removed these two lines!)
 
 +++
 

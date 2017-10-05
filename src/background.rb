@@ -15,15 +15,3 @@ class Processor
     end
   end
 end
-
-class Parser
-  def self.parse(csv_file)
-    ...
-  end
-end
-
-class Loader
-  def self.load!(parsed_data)
-    ...
-  end
-end
