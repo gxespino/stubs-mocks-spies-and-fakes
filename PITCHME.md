@@ -61,7 +61,57 @@ end
 
 ---
 
+Stubs are great for QUERY methods
+But they don't suffice for COMMAND methods
+
++++
+
+```ruby
+  def process(csv_file)
+    begin
+      parsed = parser.parse(csv_file)
+      loader.load!(parsed)
+
+      Result.new(:success)
+    rescue ActiveRecord::RecordInvalid => invalid
+      Result.new(:failed, invalid.record.errors)
+    end
+  end
+```
+@[1]
+@[3-4](Using stubs our test would still pass if we removed these two lines!)
+
++++
+
+What should we do instead?
+
+---
+
 ### Mocks
+
+```ruby
+describe '#process' do
+  it 'returns a successful Result object' do
+    processor  = Processor.new
+    parsed     = double('parsed')
+    loaded     = double('loaded')
+    expect(Parser).to receive(:parse).and_return(parsed)
+    expect(Loader).to receive(:load!).and_return(loaded)
+
+    result = processor.process('test_file.csv')
+
+    expect(result.successful?).to eq(true)
+  end
+end
+```
+
+@[4-5](Still using the same Doubles)
+@[6-7](A mock is just like a stub, except that it doesn't just allow methods to be invoked; it expects it.)
+
++++
+
+stubs = allow
+mocks = expect
 
 ---
 
