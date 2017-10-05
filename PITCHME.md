@@ -127,9 +127,69 @@ stubs = allow
 
 mocks = expect
 
++++
+
+But Mocks muddle up our tests by setting expectations out of order
+
++++
+
+```ruby
+describe '#process' do
+  it 'returns a successful Result object' do
+    processor  = Processor.new
+    parsed     = double('parsed')
+    loaded     = double('loaded')
+    expect(Parser).to receive(:parse).and_return(parsed)
+    expect(Loader).to receive(:load!).and_return(loaded)
+
+    result = processor.process('test_file.csv')
+
+    expect(result.successful?).to eq(true)
+  end
+end
+```
+
+@[3-5](Arrange)
+@[9](Act)
+@[11](Assert)
+@[6-7](Arrange/Assert/Both?/WTH!?)
+
 ---
 
 ### Spies
+
+```ruby
+describe '#process' do
+  it 'returns a successful Result object' do
+    processor  = Processor.new
+    parsed     = double('parsed')
+    loaded     = double('loaded')
+    allow(Parser).to receive(:parse).and_return(parsed)
+    allow(Loader).to receive(:load!).and_return(loaded)
+
+    result = processor.process('test_file.csv')
+
+    expect(Parser).to have_received(:parse).with('test_file.csv')
+    expect(Loader).to have_received(:load!).with(parsed)
+    expect(result.successful?).to eq(true)
+  end
+end
+```
+
+@[3-7](Arrange)
+@[9](Act)
+@[11-13](Assert)
+
++++
+
+Spies are ALSO stubs. They just also have an explicit expectation.
+
++++
+
+Benefits of spies:
+
+- Tests are organized clearly in Arrange, Act, Assert - making them easier to understand <!-- .element: class="fragment" -->
+- Easier to extract repeated Arrange steps <!-- .element: class="fragment" -->
 
 ---
 
