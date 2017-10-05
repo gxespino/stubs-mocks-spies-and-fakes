@@ -1,5 +1,5 @@
 ### Stubs, Mocks, Spies, Fakes and Doubles
-#### (Nothing is real)
+(Nothing is real anymore)
 
 ---
 
@@ -36,7 +36,7 @@ describe '#process' do
 end
 ```
 
-##### No stubs in place. Object and it's tests are tightly _coupled_ to it's dependencies
+No stubs in place. Object and it's tests are tightly _coupled_ to it's dependencies
 
 +++
 
@@ -56,7 +56,8 @@ describe '#process' do
 end
 ```
 
-#### In this example we are dictating what Parser and Loader will return, decoupling Processor from the implementation details of it's collaborators. Parser and Loader can change, but Processor's tests won't and shouldn't break because they should only be concerned with how Processor works.
+@[4-5]
+@[6-7]
 
 ---
 
