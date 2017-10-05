@@ -56,8 +56,8 @@ describe '#process' do
 end
 ```
 
-@[4-5]
-@[6-7]
+@[4-5](Using RSpec's `double` method as a stand in Object)
+@[6-7](_Stubbing_ our collaborators internal implementation with our test doubles)
 
 ---
 
