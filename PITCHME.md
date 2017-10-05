@@ -197,6 +197,30 @@ Downsides of Spies: <!-- .element: class="fragment" -->
 
 - Some duplication (overcome this by extraction) <!-- .element: class="fragment" -->
 
++++
+
+```ruby
+describe '#process' do
+  it 'returns a successful Result object' do
+    processor  = Processor.new
+    stub_parser_and_loader(parsed, loaded)
+
+    result = processor.process('test_file.csv')
+
+    expect(Parser).to have_received(:parse).with('test_file.csv')
+    expect(Loader).to have_received(:load!).with(parsed)
+    expect(result.successful?).to eq(true)
+  end
+end
+
+def stub_parser_and_loader
+  parsed = double('parsed')
+  loaded = double('loaded')
+  allow(Parser).to receive(:parse).and_return(parsed)
+  allow(Loader).to receive(:load!).and_return(loaded)
+end
+```
+
 ---
 
 ### Fakes
