@@ -193,6 +193,10 @@ Benefits of Spies:
 - Easier to understand <!-- .element: class="fragment" -->
 - Easier to extract repeated Arrange steps <!-- .element: class="fragment" -->
 
+Downsides of Spies: <!-- .element: class="fragment" -->
+
+- Some duplication (overcome this by extraction) <!-- .element: class="fragment" -->
+
 ---
 
 ### Fakes
