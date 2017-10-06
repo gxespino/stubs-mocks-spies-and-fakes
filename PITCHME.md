@@ -59,8 +59,8 @@ describe '#process' do
     parser    = double('parser')
     loader    = double('loader')
     processor = Processor.new(parser: parser, loader: loader)
-    allow(parser).to receive(:parse)
-    allow(loader).to receive(:load!)
+    allow(parser).to receive(parse).and_return('PARSED')
+    allow(loader).to receive(:load!).and_return(Result.new(:success))
 
     result = processor.process('test_file.csv')
 
@@ -108,8 +108,8 @@ describe '#process' do
     parser    = double('parser')
     loader    = double('loader')
     processor = Processor.new(parser: parser, loader: loader)
-    expect(parser).to receive(:parse)
-    expect(loader).to receive(:load!)
+    expect(parser).to receive(:parse).and_return('PARSED')
+    expect(loader).to receive(:load!).and_return(Result.new(:success))
 
     result = processor.process('test_file.csv')
 
@@ -143,8 +143,8 @@ describe '#process' do
     parser    = double('parser')
     loader    = double('loader')
     processor = Processor.new(parser: parser, loader: loader)
-    expect(parser).to receive(:parse)
-    expect(loader).to receive(:load!)
+    expect(parser).to receive(:parse).and_return('PARSED')
+    expect(loader).to receive(:load!).and_return(Result.new(:success))
 
     result = processor.process('test_file.csv')
 
@@ -168,8 +168,8 @@ describe '#process' do
     parser    = double('parser')
     loader    = double('loader')
     processor = Processor.new(parser: parser, loader: loader)
-    allow(parser).to receive(:parse)
-    allow(loader).to receive(:load!)
+    allow(parser).to receive(:parse).and_return('PARSED')
+    allow(loader).to receive(:load!).and_return(Result.new(:success))
 
     result = processor.process('test_file.csv')
 
@@ -220,13 +220,13 @@ end
 
 def stubbed_parser
   parser = double('parser')
-  allow(parser).to receive(:parse)
+  allow(parser).to receive(:parse).and_return('PARSED')
   parser
 end
 
 def stubbed_loader
   loader = double('losser')
-  allow(loader).to receive(:load!)
+  allow(loader).to receive(:load!).and_return(Result.new(:success))
   loader
 end
 ```
