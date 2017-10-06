@@ -173,8 +173,8 @@ describe '#process' do
 
     result = processor.process('test_file.csv')
 
-    expect(Parser).to have_received(:parse).with('test_file.csv')
-    expect(Loader).to have_received(:load!)
+    expect(parser).to have_received(:parse).with('test_file.csv')
+    expect(loader).to have_received(:load!)
     expect(result.successful?).to eq(true)
   end
 end
@@ -212,8 +212,8 @@ describe '#process' do
 
     result = processor.process('test_file.csv')
 
-    expect(Parser).to have_received(:parse).with('test_file.csv')
-    expect(Loader).to have_received(:load!)
+    expect(parser).to have_received(:parse).with('test_file.csv')
+    expect(loader).to have_received(:load!)
     expect(result.successful?).to eq(true)
   end
 end
