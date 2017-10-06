@@ -272,10 +272,10 @@ Benefits of Fakes:
 
 - Clean solution for a dependency requiring a lot of the same mocks <!-- .element: class="fragment" -->
 
-Downsides of Spies: <!-- .element: class="fragment" -->
+Downsides of Fakes: <!-- .element: class="fragment" -->
 
 - A lot of code and maintenance required for when the real object changes <!-- .element: class="fragment" -->
-**
+
 ---
 
 ### But wait! There's more!
@@ -298,7 +298,7 @@ describe '#process' do
 end
 ```
 
-@[3-4](#spy method added in RSpec 3.1. Spy automatically automatically stubs all messages)
+@[3-4](#spy method added in RSpec 3.1. Spy automatically stubs all messages for that object)
 
 +++
 
@@ -306,7 +306,12 @@ TLDR:
 
 - Query - return a result and do not alter application state (no side effects) <!-- .element: class="fragment" -->
 - Command - alters application state (send emails, alter DB, etc.) <!-- .element: class="fragment" -->
-- STUB: if your object under test is calling another object’s query method. You do not actually care if that query method is called as long as the system under test ultimately does what it should. <!-- .element: class="fragment" -->
+
++++
+
+TLDR CONT:
+
+- STUB: if your object under test is calling another object’s query method. You do not actually care if that query method is called as long as the object under test ultimately does what it should. <!-- .element: class="fragment" -->
 - SPY: if you want to ensure that a message was a received by an object. This is necessary when you are calling a command method. <!-- .element: class="fragment" -->
 - MOCKS: Eh, lean towards Spies as they don't break Arrange - Act - Assert. Spies used to add some code duplication but this is alleviated with code extraction or the new #spy method. <!-- .element: class="fragment" -->
 
