@@ -264,7 +264,7 @@ end
 
 You don't need Fakes, you can just stub, spy, or mock everything. 
 
-But, they can be really useful for replacing an large dependency.
+But, they can be really useful for replacing a large dependency.
 
 +++
 
