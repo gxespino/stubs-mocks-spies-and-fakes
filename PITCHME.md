@@ -56,11 +56,11 @@ No stubs in place. Object and it's tests are tightly _coupled_ to it's dependenc
 ```ruby
 describe '#process' do
   it 'returns a successful Result object' do
-    processor  = Processor.new
-    parsed     = double('parsed')
-    loaded     = double('loaded')
-    allow(Parser).to receive(:parse).and_return(parsed)
-    allow(Loader).to receive(:load!).and_return(loaded)
+    parser    = double('parser')
+    loader    = double('loader')
+    processor = Processor.new(parser: parser, loader: loader)
+    allow(parser).to receive(:parse)
+    allow(loader).to receive(:load!)
 
     result = processor.process('test_file.csv')
 
@@ -69,7 +69,7 @@ describe '#process' do
 end
 ```
 
-@[4-5](Using RSpec's `double` method as a stand in Object)
+@[3-4](Using RSpec's `double` method as a stand in Object)
 @[6-7](_Stubbing_ our collaborators internal implementation with our test doubles)
 
 ---
@@ -105,11 +105,11 @@ What should we do instead?
 ```ruby
 describe '#process' do
   it 'returns a successful Result object' do
-    processor  = Processor.new
-    parsed     = double('parsed')
-    loaded     = double('loaded')
-    expect(Parser).to receive(:parse).and_return(parsed)
-    expect(Loader).to receive(:load!).and_return(loaded)
+    parser    = double('parser')
+    loader    = double('loader')
+    processor = Processor.new(parser: parser, loader: loader)
+    expect(parser).to receive(:parse)
+    expect(loader).to receive(:load!)
 
     result = processor.process('test_file.csv')
 
@@ -118,7 +118,7 @@ describe '#process' do
 end
 ```
 
-@[4-5](Still using the same Doubles)
+@[3-4](Still using the same Doubles)
 @[6-7](A mock is just like a stub, except that it doesn't just allow methods to be invoked; it expects it.)
 
 +++
@@ -129,18 +129,22 @@ mocks = expect
 
 +++
 
-But Mocks muddle up our tests by setting expectations out of order
+Is Loading into a Database a Command or a Query? How does this affect whether or not we should use a stub vs mock?
+
++++
+
+Downside: Mocks muddle up our tests by setting expectations out of order
 
 +++
 
 ```ruby
 describe '#process' do
   it 'returns a successful Result object' do
-    processor  = Processor.new
-    parsed     = double('parsed')
-    loaded     = double('loaded')
-    expect(Parser).to receive(:parse).and_return(parsed)
-    expect(Loader).to receive(:load!).and_return(loaded)
+    parser    = double('parser')
+    loader    = double('loader')
+    processor = Processor.new(parser: parser, loader: loader)
+    expect(parser).to receive(:parse)
+    expect(loader).to receive(:load!)
 
     result = processor.process('test_file.csv')
 
@@ -161,16 +165,16 @@ end
 ```ruby
 describe '#process' do
   it 'returns a successful Result object' do
-    processor  = Processor.new
-    parsed     = double('parsed')
-    loaded     = double('loaded')
-    allow(Parser).to receive(:parse).and_return(parsed)
-    allow(Loader).to receive(:load!).and_return(loaded)
+    parser    = double('parser')
+    loader    = double('loader')
+    processor = Processor.new(parser: parser, loader: loader)
+    allow(parser).to receive(:parse)
+    allow(loader).to receive(:load!)
 
     result = processor.process('test_file.csv')
 
     expect(Parser).to have_received(:parse).with('test_file.csv')
-    expect(Loader).to have_received(:load!).with(parsed)
+    expect(Loader).to have_received(:load!)
     expect(result.successful?).to eq(true)
   end
 end
@@ -202,27 +206,139 @@ Downsides of Spies: <!-- .element: class="fragment" -->
 ```ruby
 describe '#process' do
   it 'returns a successful Result object' do
-    processor  = Processor.new
-    stub_parser_and_loader(parsed, loaded)
+    parser    = stubbed_parser
+    loader    = stubbed_loader
+    processor = Processor.new(parser: parser, loader: loader)
 
     result = processor.process('test_file.csv')
 
     expect(Parser).to have_received(:parse).with('test_file.csv')
-    expect(Loader).to have_received(:load!).with(parsed)
+    expect(Loader).to have_received(:load!)
     expect(result.successful?).to eq(true)
   end
 end
 
-def stub_parser_and_loader
-  parsed = double('parsed')
-  loaded = double('loaded')
-  allow(Parser).to receive(:parse).and_return(parsed)
-  allow(Loader).to receive(:load!).and_return(loaded)
+def stubbed_parser
+  parser = double('parser')
+  allow(parser).to receive(:parse)
+  parser
+end
+
+def stubbed_loader
+  loader = double('losser')
+  allow(loader).to receive(:load!)
+  loader
 end
 ```
+
++++
 
 ---
 
 ### Fakes
 
+Fake objects that totally replace an external system. e.g. FakeStripe, FakePCS, FakeNewRelic
+
++++
+
+```ruby
+describe DecisionProcess do
+  describe '.decide' do
+    it 'fetches an account from PCS' do
+      account_id = '123'
+      allow(PCSClient)
+        .to receive(:fetch)
+        .with(account_id: account_id)
+        .and_return(FakePCSClient.fetch('123'))
+
+      result = DecisionProcess.decide(account_id: account_id)
+
+      expect(result).to eq(:success)
+    end
+  end
+end
+```
+
+@[5](Real client)
+@[8](Fake client)
+
++++
+
+You don't need Fakes, you can just stub, spy, or mock everything. 
+
+But, they can be really useful for replacing an large dependency.
+
++++
+
+Benefits of Fakes:
+
+- Clean solution for a dependency requiring a lot of the same mocks <!-- .element: class="fragment" -->
+
+Downsides of Spies: <!-- .element: class="fragment" -->
+
+- A lot of code and maintenance required for when the real object changes <!-- .element: class="fragment" -->
+**
 ---
+
+### But wait! There's more!
+
++++
+
+```ruby
+describe '#process' do
+  it 'returns a successful Result object' do
+    parser = spy('parser')
+    loader = spy('loader')
+    processor  = Processor.new(parser: parser, loader: loader)
+
+    result = processor.process('test_file.csv')
+
+    expect(parser).to have_received(:parse).with('test_file.csv')
+    expect(loader).to have_received(:load!)
+    expect(result.successful?).to eq(true)
+  end
+end
+```
+
+@[3-4](#spy method added in RSpec 3.1. Spy automatically automatically stubs all messages)
+
++++
+
+TLDR:
+
+- Query - return a result and do not alter application state (no side effects) <!-- .element: class="fragment" -->
+- Command - alters application state (send emails, alter DB, etc.) <!-- .element: class="fragment" -->
+- STUB: if your object under test is calling another object’s query method. You do not actually care if that query method is called as long as the system under test ultimately does what it should. <!-- .element: class="fragment" -->
+- SPY: if you want to ensure that a message was a received by an object. This is necessary when you are calling a command method. <!-- .element: class="fragment" -->
+- MOCKS: Eh, lean towards Spies as they don't break Arrange - Act - Assert. Spies used to add some code duplication but this is alleviated with code extraction or the new #spy method. <!-- .element: class="fragment" -->
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
