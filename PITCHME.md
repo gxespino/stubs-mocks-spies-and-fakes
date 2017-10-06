@@ -231,8 +231,6 @@ def stubbed_loader
 end
 ```
 
-+++
-
 ---
 
 ### Fakes
