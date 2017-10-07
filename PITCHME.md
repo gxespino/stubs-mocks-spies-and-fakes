@@ -59,7 +59,7 @@ describe '#process' do
     parser    = double('parser')
     loader    = double('loader')
     processor = Processor.new(parser: parser, loader: loader)
-    allow(parser).to receive(parse).and_return('PARSED')
+    allow(parser).to receive(:parse).and_return('PARSED')
     allow(loader).to receive(:load!).and_return(Result.new(:success))
 
     result = processor.process('test_file.csv')
@@ -316,32 +316,3 @@ TLDR CONT:
 - MOCKS: Eh, lean towards Spies as they don't break Arrange - Act - Assert. Spies used to add some code duplication but this is alleviated with code extraction or the new #spy method. <!-- .element: class="fragment" -->
 
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
