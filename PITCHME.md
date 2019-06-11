@@ -324,3 +324,9 @@ TLDR CONT:
 - MOCKS: Eh, lean towards Spies as they don't break Arrange - Act - Assert. Spies used to add some code duplication but this is alleviated with code extraction or the new #spy method. <!-- .element: class="fragment" -->
 
 ---
+
+@gxespino on twitter
+
+I hate meetings - www.meetingzero.co
+
+---
