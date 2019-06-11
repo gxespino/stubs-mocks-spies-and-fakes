@@ -3,6 +3,14 @@
 
 ---
 
+### About
+
+@gxespino on twitter
+
+I hate meetings - meetingzero.co
+
+---
+
 ### TIL:
 
 - Stubs
