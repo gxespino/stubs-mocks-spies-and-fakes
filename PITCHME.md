@@ -7,7 +7,7 @@
 
 @gxespino on twitter
 
-I hate meetings - meetingzero.co
+I hate meetings - www.meetingzero.co
 
 ---
 
