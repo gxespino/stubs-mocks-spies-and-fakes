@@ -7,8 +7,6 @@
 
 @gxespino on twitter
 
-I hate meetings - www.meetingzero.co
-
 ---
 
 ### TIL:
@@ -78,7 +76,7 @@ end
 ```
 
 @[3-4](Using RSpec's `double` method as a stand in Object)
-@[6-7](_Stubbing_ our collaborators internal implementation with our test doubles)
+@[6-7](_Stubbing_ our collaborator's internal implementation with our test doubles)
 
 ---
 
@@ -326,7 +324,5 @@ TLDR CONT:
 ---
 
 @gxespino on twitter
-
-I hate meetings - www.meetingzero.co
 
 ---
